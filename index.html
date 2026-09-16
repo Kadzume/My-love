@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
   <!-- IMPORTANT GITHUB PATHS:
-       images/photo-1.jpg
-       images/photo-2.jpg
-       images/photo-3.jpg
-       video/love-video.mp4
-       The folders images/ and video/ must be next to index.html in the repository.
+       photo-1.jpg
+       photo-2.jpg
+       photo-3.jpg
+       love-video.mp4
+       These files are in the repository root next to index.html.
   -->
   <!--
     PUBLISHED SITE ASSETS:
@@ -1065,7 +1065,7 @@
       <input class="song-artist" value="" />
     </div>
     <button class="play-btn" type="button" aria-label="play BUSHIDO ZHO - Где бы я ни был">▶</button>
-    <audio class="site-audio" preload="metadata" src="./audio/BUSHIDO%20ZHO%20-%20%D0%93%D0%B4%D0%B5%20%D0%B1%D1%8B%20%D1%8F%20%D0%20%D0%B1%D1%8B%D0%BB.mp3"></audio>
+    <audio class="site-audio" preload="metadata" src="./BUSHIDO%20ZHO%20-%20%D0%93%D0%B4%D0%B5%20%D0%B1%D1%8B%20%D1%8F%20%D0%BD%D0%B8%20%D0%B1%D1%8B%D0%BB.mp3"></audio>
   </div>
   <div class="song-row" data-idx="2">
     <span class="song-num">02</span>
@@ -1074,7 +1074,7 @@
       <input class="song-artist" value="" />
     </div>
     <button class="play-btn" type="button" aria-label="play Face - Лиза">▶</button>
-    <audio class="site-audio" preload="metadata" src="./audio/Face%20-%20%D0%9B%D0%B8%D0%B7%D0%B0.mp3"></audio>
+    <audio class="site-audio" preload="metadata" src="./Face%20-%20%D0%9B%D0%B8%D0%B7%D0%B0.mp3"></audio>
   </div>
 </div>
 
@@ -1098,7 +1098,7 @@
     <div class="scrap-wrap" id="scrapWrap">
       <label class="polaroid">
         <div class="frame">
-          <img class="site-photo" src="./images/photo-1.jpg" alt="Наше фото 1" loading="eager" data-photo-index="1">
+          <img class="site-photo" src="./photo-1.jpg" alt="Наше фото 1" loading="eager" data-photo-index="1">
           <span class="plus" style="display:none">+</span>
         </div>
         <div class="photo-caption">моя любовь прекрасна как букеты подаренные тебе</div>
@@ -1107,7 +1107,7 @@
 
       <label class="polaroid">
         <div class="frame">
-          <img class="site-photo" src="./images/photo-2.jpg" alt="Наше фото 2" loading="eager" data-photo-index="2">
+          <img class="site-photo" src="./photo-2.jpg" alt="Наше фото 2" loading="eager" data-photo-index="2">
           <span class="plus" style="display:none">+</span>
         </div>
         <div class="photo-caption">люблю тебя солнце</div>
@@ -1116,7 +1116,7 @@
 
       <label class="polaroid">
         <div class="frame">
-          <img class="site-photo" src="./images/photo-3.jpg" alt="Наше фото 3" loading="eager" data-photo-index="3">
+          <img class="site-photo" src="./photo-3.jpg" alt="Наше фото 3" loading="eager" data-photo-index="3">
           <span class="plus" style="display:none">+</span>
         </div>
         <div class="photo-caption">моя мышка</div>
@@ -1344,7 +1344,7 @@
 
   $all('.song-row').forEach(function(row){
     var btn = row.querySelector('.play-btn');
-    var audio = row.querySelector('.track-audio');
+    var audio = row.querySelector('.site-audio');
     var reels = $('#reels');
     if(!btn || !audio) return;
 
@@ -1353,7 +1353,7 @@
       e.stopPropagation();
 
       // Stop the other track.
-      $all('.track-audio').forEach(function(other){
+      $all('.site-audio').forEach(function(other){
         if(other !== audio){
           other.pause();
           other.currentTime = 0;
@@ -1363,7 +1363,7 @@
       });
 
       if(audio.paused){
-        // The MP3 is loaded from the site's /audio/ folder.
+        // The MP3 is loaded from the repository root.
         audio.play().then(function(){
           activeAudio = audio;
           btn.textContent = '❚❚';
@@ -1423,14 +1423,14 @@
   function loadPublishedPhoto(image, index){
     var frame = image.closest('.frame');
     var candidates = [
-      './images/photo-' + index + '.jpg',
-      './images/photo-' + index + '.jpeg',
-      './images/photo-' + index + '.png',
-      './images/photo-' + index + '.webp',
       './photo-' + index + '.jpg',
       './photo-' + index + '.jpeg',
       './photo-' + index + '.png',
-      './photo-' + index + '.webp'
+      './photo-' + index + '.webp',
+      './images/photo-' + index + '.jpg',
+      './images/photo-' + index + '.jpeg',
+      './images/photo-' + index + '.png',
+      './images/photo-' + index + '.webp'
     ];
     var pos = 0;
 
@@ -1498,12 +1498,12 @@
   var videoEl = $('#loveVideo');
   var videoPlaceholder = $('#videoPlaceholder');
 
-  // GitHub Pages: video/love-video.mp4 must be next to index.html.
+  // GitHub Pages: love-video.mp4 is next to index.html.
   var videoCandidates = [
-    './video/love-video.mp4',
-    'video/love-video.mp4',
     './love-video.mp4',
-    'love-video.mp4'
+    'love-video.mp4',
+    './video/love-video.mp4',
+    'video/love-video.mp4'
   ];
 
   function showVideo(){
@@ -1603,7 +1603,7 @@
           if (promise && typeof promise.catch === 'function') {
             promise.catch(function () {
               btn.textContent = '⚠';
-              btn.title = 'Не удалось загрузить MP3 из папки audio';
+              btn.title = 'Не удалось загрузить MP3 из корня сайта';
             });
           }
         } else {
@@ -1624,7 +1624,7 @@
         // Do not open a local file picker. Show the error only if the
         // published GitHub Pages file really cannot be loaded.
         btn.textContent = '⚠';
-        btn.title = 'MP3 не загрузился. Проверь папку audio и имя файла.';
+        btn.title = 'MP3 не загрузился. Проверь имя файла в репозитории.';
       });
     });
   }

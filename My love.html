@@ -1,0 +1,1642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- IMPORTANT GITHUB PATHS:
+       images/photo-1.jpg
+       images/photo-2.jpg
+       images/photo-3.jpg
+       video/love-video.mp4
+       The folders images/ and video/ must be next to index.html in the repository.
+  -->
+  <!--
+    PUBLISHED SITE ASSETS:
+      audio/face-liza.mp3
+      audio/bushido-gde-bi-ya-ni-byl.mp3
+      images/photo-1.jpg
+      images/photo-2.jpg
+      images/scrapbook-background.png
+      images/photo-3.jpg
+      video/love-video.mp4
+    Upload these folders with index.html to GitHub Pages.
+    Visitors then receive the media from the website; they do not need the files locally.
+  -->
+
+  <!--
+    FILES FOR PUBLISHING:
+    Put these files beside this HTML before uploading the site:
+      audio/face-liza.mp3
+      audio/bushido-gde-bi-ya-ni-byl.mp3
+      images/photo-1.jpg
+      images/photo-2.jpg
+      images/scrapbook-background.png
+      images/photo-3.jpg
+
+    For a public website, upload the whole folder to the same web host/repository.
+    The browser then downloads the assets from the site; visitors do not need to
+    have the MP3/JPG files on their own computer.
+  -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+<title>For My Love</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Caveat:wght@500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --burgundy-deep:#16070d;
+    --burgundy:#2b0b18;
+    --burgundy-light:#59152b;
+    --gingham-red:#7e263d;
+    --gingham-cream:#f3e6d8;
+    --cream:#f8efe2;
+    --blush:#f3d9c9;
+    --blush-deep:#e8b8a2;
+    --rose:#c97a72;
+    --gold:#cf9e56;
+    --gold-soft:#e3c384;
+    --leopard:#3b2416;
+    --ink:#2a1810;
+    font-size:16px;
+  }
+  *{box-sizing:border-box;}
+  html,body{
+    margin:0;padding:0;height:100%;
+    background:var(--burgundy-deep);
+    color:var(--cream);
+    font-family:'Poppins',sans-serif;
+    overflow-x:hidden;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important;}
+  }
+  h1,h2,.script{font-family:'Caveat',cursive;}
+  .serif{font-family:'Playfair Display',serif;}
+
+  #scroll-container{
+    height:100vh;
+    overflow-y:auto;
+    scroll-snap-type:y mandatory;
+    scroll-behavior:smooth;
+  }
+  section{
+    position:relative;
+    height:100vh;
+    width:100%;
+    scroll-snap-align:start;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+  }
+
+  /* ---------- NAV DOTS ---------- */
+  #navdots{
+    position:fixed;
+    right:18px;
+    top:50%;
+    transform:translateY(-50%);
+    z-index:1200;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+  }
+  #navdots button{
+    width:10px;height:10px;border-radius:50%;
+    background:rgba(248,239,226,0.35);
+    border:1px solid rgba(248,239,226,0.5);
+    cursor:pointer;
+    padding:0;
+    transition:background .3s, transform .3s;
+  }
+  #navdots button.active{
+    background:var(--gold-soft);
+    transform:scale(1.35);
+  }
+
+  /* ================= SECTION 1 : GAME ================= */
+  #game{
+    background:
+      radial-gradient(circle at 50% 35%, rgba(217,122,108,.20), transparent 34%),
+      radial-gradient(circle at 10% 90%, rgba(227,195,132,.13), transparent 28%),
+      repeating-linear-gradient(0deg, transparent 0 38px, rgba(255,255,255,0.07) 38px 42px),
+      repeating-linear-gradient(90deg, transparent 0 38px, rgba(255,255,255,0.07) 38px 42px),
+      var(--gingham-red);
+  }
+  #game::before{
+    content:"";
+    position:absolute;inset:0;
+    background:radial-gradient(ellipse at center, rgba(0,0,0,0) 40%, rgba(0,0,0,0.35) 100%);
+    pointer-events:none;
+  }
+  .game-title{
+    position:relative;z-index:5;
+    text-align:center;
+    color:var(--gingham-cream);
+    text-shadow:0 2px 10px rgba(0,0,0,0.35);
+    margin:0;
+    padding-top:2.2rem;
+  }
+  .game-title .line1{font-size:4.2rem;font-weight:700;display:block;}
+  .game-subtitle{
+    position:relative;z-index:5;
+    font-family:'Playfair Display',serif;
+    font-style:italic;
+    font-size:0.95rem;
+    color:var(--gingham-cream);
+    opacity:0.9;
+    margin-top:-0.4rem;
+  }
+  #score-pill{
+    position:absolute;top:1.2rem;right:1.2rem;z-index:6;
+    background:rgba(42,13,22,0.55);
+    border:1px solid rgba(243,230,216,0.4);
+    border-radius:999px;
+    padding:0.4rem 1rem;
+    font-size:0.85rem;
+    letter-spacing:0.02em;
+    backdrop-filter:blur(3px);
+  }
+  #game-field{
+    position:relative;
+    width:100%;
+    flex:1;
+    z-index:2;
+  }
+  .falling-item{
+    position:absolute;
+    font-size:4.2rem;
+    filter:drop-shadow(0 6px 8px rgba(0,0,0,0.35));
+    will-change:transform;
+    user-select:none;
+    pointer-events:none;
+  }
+  .catch-pop{
+    position:absolute;
+    font-family:'Playfair Display',serif;
+    font-weight:700;
+    font-style:italic;
+    color:var(--gold-soft);
+    font-size:1.3rem;
+    pointer-events:none;
+    animation:popUp 0.7s ease-out forwards;
+  }
+  @keyframes popUp{
+    0%{opacity:1;transform:translateY(0) scale(0.8);}
+    100%{opacity:0;transform:translateY(-45px) scale(1.15);}
+  }
+  #basket{
+    position:absolute;
+    bottom:6%;
+    width:245px;
+    height:155px;
+    left:50%;
+    transform:translateX(-50%);
+    touch-action:none;
+    cursor:grab;
+    z-index:4;
+  }
+  #basket .handle{
+    position:absolute;
+    top:-28px;left:50%;
+    transform:translateX(-50%);
+    width:138px;height:82px;
+    border:11px solid #7a4a26;
+    border-bottom:none;
+    border-radius:60px 60px 0 0;
+  }
+  #basket .body{
+    position:absolute;
+    bottom:0;left:0;right:0;
+    height:125px;
+    border-radius:14px 14px 30px 30px / 14px 14px 46px 46px;
+    background:
+      repeating-linear-gradient(115deg, #b1793f 0 8px, #8c5b2b 8px 16px),
+      repeating-linear-gradient(65deg, rgba(0,0,0,0.12) 0 8px, transparent 8px 16px);
+    box-shadow:0 10px 18px rgba(0,0,0,0.4), inset 0 -6px 10px rgba(0,0,0,0.25);
+    border:2px solid #5f3a1a;
+  }
+  #basket .cloth{
+    position:absolute;
+    top:-6px;left:14px;right:14px;
+    height:30px;
+    background:repeating-linear-gradient(90deg, var(--gingham-red) 0 10px, var(--gingham-cream) 10px 20px);
+    border-radius:4px 4px 0 0;
+    transform:rotate(-2deg);
+  }
+  #continue-1{
+    position:relative;z-index:6;
+    margin-top:1.4rem;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .6s ease;
+  }
+  #continue-1.show{opacity:1;pointer-events:auto;}
+
+  .btn{
+    font-family:'Playfair Display',serif;
+    font-style:italic;
+    font-size:1rem;
+    letter-spacing:0.02em;
+    background:var(--burgundy-deep);
+    color:var(--gold-soft);
+    border:1px solid var(--gold-soft);
+    border-radius:999px;
+    padding:0.65rem 1.8rem;
+    cursor:pointer;
+    transition:transform .25s ease, background .25s ease, color .25s ease;
+  }
+  .btn:hover{background:var(--gold-soft);color:var(--burgundy-deep);transform:translateY(-2px);}
+  .btn:active{transform:translateY(0);}
+  .btn.light{
+    background:var(--cream);color:var(--burgundy-deep);border-color:var(--cream);
+  }
+  .btn.light:hover{background:var(--gold-soft);border-color:var(--gold-soft);}
+
+  /* ================= SECTION 2 : MIXTAPE ================= */
+  #mixtape{
+    background:
+      radial-gradient(circle at 8% 12%, rgba(233,178,150,0.55), transparent 32%),
+      radial-gradient(circle at 92% 15%, rgba(198,150,190,0.4), transparent 30%),
+      radial-gradient(circle at 10% 90%, rgba(233,178,150,0.5), transparent 30%),
+      radial-gradient(circle at 95% 88%, rgba(214,197,130,0.4), transparent 30%),
+      linear-gradient(160deg, var(--blush) 0%, var(--blush-deep) 55%, #e6ac9c 100%);
+  }
+  .corner-bloom{
+    position:absolute;
+    width:230px;height:230px;
+    z-index:1;
+    pointer-events:none;
+    opacity:0.9;
+  }
+  .corner-bloom.tl{top:-60px;left:-60px;}
+  .corner-bloom.tr{top:-60px;right:-60px;transform:scaleX(-1);}
+  .corner-bloom.bl{bottom:-60px;left:-60px;transform:scaleY(-1);}
+  .corner-bloom.br{bottom:-60px;right:-60px;transform:scale(-1,-1);}
+
+  .mixtape-card{
+    position:relative;z-index:3;
+    width:min(420px,88vw);
+    background:linear-gradient(165deg,#fbf1e6,#f3e0cf);
+    border-radius:18px;
+    padding:1.6rem 1.6rem 1.3rem;
+    box-shadow:0 24px 50px rgba(60,20,20,0.35);
+  }
+  .mixtape-eyebrow{
+    font-family:'Playfair Display',serif;
+    font-style:italic;
+    font-size:0.78rem;
+    letter-spacing:0.08em;
+    color:#a06a4c;
+    margin:0;
+  }
+  .mixtape-title{
+    font-size:2.2rem;
+    color:var(--ink);
+    margin:0.1rem 0 0.9rem;
+  }
+  .cassette{
+    position:relative;
+    background:repeating-linear-gradient(45deg, #e88fa0 0 14px, #f2aab6 14px 28px);
+    border:5px solid #c96c85;
+    border-radius:14px;
+    padding:1rem 1rem 0.6rem;
+    box-shadow:inset 0 0 0 6px rgba(255,255,255,0.25), 0 10px 20px rgba(0,0,0,0.18);
+  }
+  .cassette .label{
+    background:#fdf1e9;
+    border-radius:6px;
+    text-align:center;
+    padding:0.25rem;
+    font-family:'Playfair Display',serif;
+    font-style:italic;
+    font-size:0.82rem;
+    color:#8a4a5a;
+    margin-bottom:0.7rem;
+  }
+  .reels{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:#3a1f28;
+    border-radius:10px;
+    padding:0.9rem 1.1rem;
+    position:relative;
+  }
+  .reel{
+    width:46px;height:46px;border-radius:50%;
+    background:radial-gradient(circle at center, #6b3446 0 30%, #a45b74 32% 60%, #6b3446 62% 100%);
+    border:3px solid #cf9e56;
+    animation:spin 4s linear infinite;
+  }
+  .reels.paused .reel{animation-play-state:paused;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .reel-tape{
+    position:absolute;left:50%;top:50%;
+    transform:translate(-50%,-50%);
+    width:64%;height:10px;
+    background:#f5ece0;
+    border-radius:4px;
+  }
+  .cassette .screws{position:absolute;width:9px;height:9px;background:#8a5a2c;border-radius:50%;box-shadow:inset 0 0 0 2px #5f3a1a;}
+  .cassette .s1{top:8px;left:8px;} .cassette .s2{top:8px;right:8px;}
+  .cassette .s3{bottom:8px;left:8px;} .cassette .s4{bottom:8px;right:8px;}
+
+  .song-list{margin-top:1.1rem;}
+  .song-row{
+    display:flex;align-items:center;gap:0.7rem;
+    padding:0.55rem 0.15rem;
+    border-bottom:1px solid rgba(138,74,90,0.18);
+  }
+  .song-row:last-child{border-bottom:none;}
+  .song-num{font-family:'Playfair Display',serif;font-style:italic;color:#a06a4c;width:1.2rem;}
+  .song-meta{flex:1;min-width:0;}
+  .song-title{
+    font-weight:500;color:var(--ink);font-size:0.95rem;
+    background:transparent;border:none;outline:none;width:100%;
+    font-family:'Poppins',sans-serif;
+  }
+  .song-artist{
+    font-size:0.75rem;color:#9a6a55;
+    background:transparent;border:none;outline:none;width:100%;
+    font-family:'Poppins',sans-serif;
+  }
+  .play-btn{
+    width:34px;height:34px;border-radius:50%;
+    border:1.5px solid #a06a4c;
+    background:#fdf1e9;color:#8a4a3a;
+    cursor:pointer;font-size:0.85rem;
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+  }
+
+  .liner-note{
+    margin-top:1rem;
+    background:#f6dfa9;
+    border-radius:8px;
+    padding:0.7rem 0.9rem;
+    box-shadow:0 4px 8px rgba(0,0,0,0.12);
+    transform:rotate(-1deg);
+  }
+  .liner-note .tag{
+    font-size:0.65rem;letter-spacing:0.08em;color:#8a6a2c;
+    font-family:'Poppins',sans-serif;
+  }
+  .liner-note textarea{
+    width:100%;border:none;background:transparent;resize:none;
+    font-family:'Playfair Display',serif;font-style:italic;font-size:0.95rem;
+    color:#4a2f10;outline:none;margin-top:0.15rem;
+  }
+  .mixtape-actions{
+    display:flex;justify-content:center;margin-top:1.1rem;
+  }
+
+  /* ================= SECTION 3 : SCRAPBOOK ================= */
+  #scrapbook{
+    background:
+      radial-gradient(circle at 50% 0%, rgba(99,26,44,0.6), transparent 55%),
+      var(--burgundy);
+  }
+  .leopard-corner{
+    position:absolute;width:260px;height:340px;z-index:0;opacity:0.9;
+    background-image:
+      radial-gradient(ellipse 18px 12px at 20% 20%, var(--leopard) 40%, transparent 42%),
+      radial-gradient(ellipse 14px 10px at 55% 15%, var(--leopard) 40%, transparent 42%),
+      radial-gradient(ellipse 16px 11px at 80% 30%, var(--leopard) 40%, transparent 42%),
+      radial-gradient(ellipse 15px 10px at 30% 45%, var(--leopard) 40%, transparent 42%),
+      radial-gradient(ellipse 17px 12px at 65% 55%, var(--leopard) 40%, transparent 42%),
+      radial-gradient(ellipse 13px 9px at 15% 70%, var(--leopard) 40%, transparent 42%),
+      radial-gradient(ellipse 16px 11px at 45% 80%, var(--leopard) 40%, transparent 42%),
+      radial-gradient(ellipse 14px 10px at 80% 85%, var(--leopard) 40%, transparent 42%),
+      linear-gradient(180deg, var(--gold-soft), var(--gold));
+    clip-path:polygon(0 0, 100% 0, 100% 30%, 60% 55%, 100% 60%, 70% 100%, 0 100%);
+  }
+  .leopard-corner.top{top:0;right:0;}
+  .leopard-corner.bottom{bottom:0;left:0;transform:rotate(180deg);}
+
+  .scrap-wrap{
+    position:relative;z-index:3;
+    width:min(760px,92vw);
+    display:flex;
+    flex-wrap:wrap;
+    gap:1.35rem;
+    justify-content:center;
+    align-items:flex-end;
+    padding:1rem 0;
+  }
+  .polaroid{
+    background:#fbf6ee;
+    padding:10px 10px 34px;
+    box-shadow:0 14px 26px rgba(0,0,0,0.45);
+    width:185px;
+    cursor:pointer;
+    position:relative;
+    transition:transform .3s ease;
+  }
+  .polaroid:hover{transform:translateY(-4px) rotate(0deg) !important;}
+  .polaroid:nth-child(1){transform:rotate(-6deg);}
+  .polaroid:nth-child(2){transform:rotate(3deg);}
+  .polaroid:nth-child(3){transform:rotate(-2deg);}
+  .polaroid .frame{
+    width:100%;aspect-ratio:1/1.05;
+    background:linear-gradient(160deg,#3a2530,#241017);
+    display:flex;align-items:center;justify-content:center;
+    overflow:hidden;
+    border-radius:1px;
+  }
+  .polaroid .frame img{width:100%;height:100%;object-fit:cover;display:block;}
+  .polaroid .frame .plus{
+    color:rgba(248,239,226,0.55);
+    font-size:1.8rem;font-family:'Playfair Display',serif;
+  }
+  .polaroid input[type=file]{display:none;}
+
+  .seal{
+    width:64px;height:64px;border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, #b23a4a, #7a1f2c 70%);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Playfair Display',serif;font-style:italic;color:var(--gold-soft);
+    box-shadow:0 6px 14px rgba(0,0,0,0.4);
+    margin:1.1rem auto 0.2rem;
+    z-index:3;position:relative;
+  }
+  .scrap-heading{
+    position:relative;z-index:3;text-align:center;
+    margin:0.6rem 0 0;
+  }
+  .scrap-heading .from{
+    font-family:'Playfair Display',serif;font-style:italic;
+    font-size:0.85rem;color:var(--gold-soft);letter-spacing:0.04em;
+  }
+  .scrap-note{
+    position:relative;z-index:3;
+    width:min(480px,88vw);
+    text-align:center;
+    margin-top:0.7rem;
+  }
+  .scrap-note textarea{
+    width:100%;background:transparent;border:none;outline:none;resize:none;
+    color:var(--cream);
+    font-family:'Playfair Display',serif;font-style:italic;font-size:1.05rem;
+    line-height:1.6;text-align:center;
+  }
+  .scrap-actions{position:relative;z-index:3;margin-top:0.8rem;}
+
+
+  .art-strip{
+    position:relative; z-index:3;
+    display:flex; gap:.7rem; justify-content:center; align-items:center;
+    width:min(620px,90vw); margin:.65rem auto 0;
+  }
+  .art-card{
+    width:118px; height:74px; padding:.45rem;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    background:linear-gradient(145deg,#f2d7c5,#c9908a);
+    color:#4a1724; border:1px solid rgba(227,195,132,.6);
+    box-shadow:0 10px 20px rgba(0,0,0,.28);
+    transform:rotate(-3deg);
+    font-family:'Playfair Display',serif;
+    font-size:1.45rem;
+  }
+  .art-card:nth-child(2){transform:rotate(3deg);background:linear-gradient(145deg,#e5c5bd,#8e5060);}
+  .art-card:nth-child(3){transform:rotate(-1deg);background:linear-gradient(145deg,#ead7ad,#a86b69);}
+  .art-card span{font-size:.58rem;letter-spacing:.04em;font-style:italic;margin-top:.15rem;}
+  @media (max-width:480px){
+    #basket{width:190px;height:130px;}
+    #basket .handle{width:110px;height:70px;}
+    #basket .body{height:105px;}
+    .art-card{width:92px;height:64px;font-size:1.15rem;}
+  }
+
+  /* ================= SECTION 4 : FAVORITE PERSON ================= */
+  #favorite{
+    background:
+      radial-gradient(circle at 15% 20%, rgba(178,58,74,0.5), transparent 35%),
+      radial-gradient(circle at 85% 25%, rgba(120,30,40,0.5), transparent 32%),
+      radial-gradient(circle at 50% 100%, rgba(178,58,74,0.4), transparent 40%),
+      var(--burgundy-deep);
+  }
+  .fav-heading{
+    position:relative;z-index:3;text-align:center;
+    font-size:3rem;color:var(--gingham-cream);
+    text-shadow:0 3px 14px rgba(0,0,0,0.4);
+    margin:0 0 1.3rem;
+    line-height:0.95;
+  }
+  .video-frame{
+    position:relative;z-index:3;
+    width:min(520px,90vw);
+    aspect-ratio:16/10;
+    background:linear-gradient(160deg,#3a1620,#1c0810);
+    border:2px solid rgba(207,158,86,0.5);
+    border-radius:16px;
+    box-shadow:0 24px 50px rgba(0,0,0,0.5);
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;
+    overflow:hidden;
+  }
+  .video-frame video{width:100%;height:100%;object-fit:cover;display:none;}
+  .video-frame .placeholder{
+    text-align:center;color:rgba(243,230,216,0.75);
+  }
+  .video-frame .placeholder .icon{
+    font-size:2.4rem;display:block;margin-bottom:0.4rem;
+  }
+  .video-frame input[type=file]{display:none;}
+  .fav-sub{
+    position:relative;z-index:3;
+    font-family:'Playfair Display',serif;font-style:italic;
+    font-size:0.9rem;color:rgba(243,230,216,0.75);
+    margin-top:1rem;text-align:center;
+  }
+  .fav-restart{margin-top:1.4rem;position:relative;z-index:3;}
+
+  .petal-deco{position:absolute;font-size:1.6rem;opacity:0.35;pointer-events:none;z-index:1;}
+
+  /* ================= FLOWER TRANSITION OVERLAY ================= */
+  #flower-overlay{
+    position:fixed;inset:0;
+    z-index:999;
+    pointer-events:none;
+    opacity:0;
+  }
+  #flower-overlay .petal{
+    position:absolute;
+    font-size:2.4rem;
+    opacity:0;
+    transform:scale(0.3) rotate(0deg);
+  }
+  #flower-overlay.playing{
+    background:radial-gradient(circle, rgba(233,178,150,0.0) 0%, rgba(70,16,29,0.0) 100%);
+  }
+
+  #flower-overlay::before{
+    content:"";
+    position:absolute; inset:-20%;
+    background:
+      radial-gradient(circle at 50% 50%, transparent 0 12%, rgba(22,7,13,.08) 25%, rgba(22,7,13,.78) 68%, rgba(22,7,13,.98) 100%);
+    transform:scale(.25);
+    opacity:0;
+    animation:flowerCurtain 1.5s ease-in-out forwards;
+  }
+  #flower-overlay.playing::before{opacity:1;}
+  @keyframes flowerCurtain{
+    0%{transform:scale(.18) rotate(-8deg); opacity:0;}
+    42%{transform:scale(.75) rotate(7deg); opacity:.35;}
+    68%{transform:scale(1.45) rotate(-5deg); opacity:.72;}
+    100%{transform:scale(1.9) rotate(0deg); opacity:0;}
+  }
+
+  @keyframes petalIn{
+    0%{opacity:0;transform:scale(0.2) rotate(0deg) translateY(40px);}
+    55%{opacity:1;transform:scale(1.5) rotate(200deg) translateY(0);}
+    100%{opacity:0;transform:scale(2.1) rotate(360deg) translateY(-30px);}
+  }
+
+  /* small screens */
+  @media (max-width:480px){
+    .game-title .line1{font-size:2rem;}
+    #basket{width:130px;height:95px;}
+    .fav-heading{font-size:2.3rem;}
+    .mixtape-title{font-size:1.8rem;}
+  }
+
+    /* --- illustrated food + sparkle atmosphere --- */
+    #game {
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+      background:
+        radial-gradient(circle at 18% 22%, rgba(255,235,220,.12) 0 2px, transparent 3px),
+        radial-gradient(circle at 80% 18%, rgba(255,235,220,.10) 0 2px, transparent 3px),
+        radial-gradient(circle at 72% 78%, rgba(255,235,220,.08) 0 3px, transparent 4px),
+        linear-gradient(135deg, #17070d 0%, #3a0d20 48%, #691d37 100%);
+    }
+    #game::before {
+      content: "✦  ♡  ✧  🍓  ✿  🥐  ☆  🍒  ✧  ♡  ✦  🧁  ✿  ☆  🍓  ♡  ✧  🍰";
+      position: absolute;
+      inset: -5% -3%;
+      z-index: -1;
+      color: rgba(255,248,240,.92);
+      font-family: "Trebuchet MS", sans-serif;
+      font-size: clamp(2.1rem, 4.7vw, 4.8rem);
+      line-height: 2.2;
+      letter-spacing: .55rem;
+      word-spacing: 1.1rem;
+      transform: rotate(-7deg);
+      opacity: .20;
+      filter: drop-shadow(0 0 10px rgba(255,255,255,.12));
+      pointer-events: none;
+    }
+    #game::after {
+      content: "♡  ✦  ✧  ♧  ☆  ✿  ✦  ♡  ✧  ☆  ♡  ✦  ✿";
+      position: absolute;
+      inset: auto -8% 2% -8%;
+      z-index: -1;
+      color: transparent;
+      -webkit-text-stroke: 1.4px rgba(255,255,255,.52);
+      font-size: clamp(1.5rem, 3vw, 3rem);
+      letter-spacing: 1.5rem;
+      transform: rotate(4deg);
+      opacity: .72;
+      pointer-events: none;
+    }
+
+    /* hand-drawn white contour ornaments */
+    .food-doodles {
+      position:absolute;
+      inset:0;
+      z-index:-1;
+      pointer-events:none;
+      opacity:.82;
+    }
+    .food-doodle {
+      position:absolute;
+      color:rgba(255,250,246,.84);
+      font-family:"Trebuchet MS", sans-serif;
+      font-weight:700;
+      text-shadow:0 0 14px rgba(255,255,255,.10);
+      -webkit-text-stroke:1.2px rgba(255,255,255,.78);
+      filter:drop-shadow(0 8px 18px rgba(0,0,0,.12));
+      animation:doodleFloat 7s ease-in-out infinite;
+    }
+    .food-doodle.one { left:6%; top:16%; font-size:4rem; transform:rotate(-14deg); }
+    .food-doodle.two { right:7%; top:24%; font-size:4.5rem; transform:rotate(13deg); animation-delay:-2s; }
+    .food-doodle.three { left:11%; bottom:16%; font-size:3.7rem; transform:rotate(9deg); animation-delay:-4s; }
+    .food-doodle.four { right:13%; bottom:12%; font-size:4rem; transform:rotate(-10deg); animation-delay:-1s; }
+    .food-doodle.five { left:28%; top:9%; font-size:2.1rem; opacity:.6; }
+    .food-doodle.six { right:30%; bottom:8%; font-size:2.4rem; opacity:.58; animation-delay:-3s; }
+    @keyframes doodleFloat {
+      0%,100% { translate:0 0; }
+      50% { translate:0 -10px; }
+    }
+
+    /* extra scrapbook sparkles / hand-drawn accents */
+    #scrapbook {
+      position:relative;
+      overflow:hidden;
+      isolation:isolate;
+    }
+    #scrapbook::before {
+      content:"✦   ✧   ☆   ♡   ✿   ✦   ˚   ☆   ✧   ♡   ✦   ✿   ☆";
+      position:absolute;
+      inset:0;
+      z-index:-1;
+      color:rgba(255,247,239,.72);
+      font-size:clamp(1.1rem,2.3vw,2.2rem);
+      letter-spacing:1.8rem;
+      line-height:4.2;
+      transform:rotate(-5deg) scale(1.05);
+      opacity:.45;
+      pointer-events:none;
+    }
+    #scrapbook::after {
+      content:"";
+      position:absolute;
+      width:75vw;
+      height:75vw;
+      max-width:850px;
+      max-height:850px;
+      border:1px solid rgba(255,255,255,.18);
+      border-radius:50%;
+      left:50%;
+      top:50%;
+      transform:translate(-50%,-50%) rotate(8deg);
+      box-shadow:
+        0 0 0 14px rgba(255,255,255,.025),
+        0 0 0 32px rgba(255,255,255,.018);
+      z-index:-1;
+      pointer-events:none;
+    }
+    .scrap-sparkles {
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      z-index:0;
+    }
+    .scrap-sparkles span {
+      position:absolute;
+      color:#fff8ef;
+      opacity:.8;
+      font-size:1.2rem;
+      animation:sparkle 3.8s ease-in-out infinite;
+    }
+    .scrap-sparkles span:nth-child(1){left:8%;top:15%}
+    .scrap-sparkles span:nth-child(2){right:10%;top:18%;font-size:1.8rem;animation-delay:-1s}
+    .scrap-sparkles span:nth-child(3){left:18%;bottom:18%;font-size:1.5rem;animation-delay:-2s}
+    .scrap-sparkles span:nth-child(4){right:18%;bottom:14%;animation-delay:-.6s}
+    .scrap-sparkles span:nth-child(5){left:48%;top:10%;font-size:.9rem;animation-delay:-2.8s}
+    @keyframes sparkle {
+      0%,100% { opacity:.28; transform:scale(.7) rotate(0deg); }
+      50% { opacity:1; transform:scale(1.25) rotate(18deg); }
+    }
+
+  
+/* Hand-drawn illustrated food & sparkle background */
+#game{position:relative;overflow:hidden;}
+#game::before{
+  content:"🍓   ✦   🍰   ✧   🥐   ✦   🍒   ✧   🧁   ✦   🍓   ✧   🍰";
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  text-align:center;white-space:pre-wrap;line-height:2.3;
+  font-size:clamp(2rem,5vw,4.5rem);letter-spacing:.3rem;
+  color:transparent;-webkit-text-stroke:2px rgba(255,255,255,.72);
+  opacity:.20;transform:rotate(-7deg) scale(1.15);pointer-events:none;
+  filter:drop-shadow(0 0 7px rgba(255,255,255,.18));z-index:0;
+}
+#game::after{
+  content:"✦  ✧  ⋆  ✦  ·  ✧  ✦  ⋆  ✧  ✦  ·  ⋆  ✦  ✧";
+  position:absolute;inset:0;display:flex;align-items:flex-start;justify-content:space-around;
+  padding-top:8vh;font-size:clamp(1rem,2vw,2rem);
+  color:rgba(255,255,255,.55);letter-spacing:1.8rem;
+  pointer-events:none;z-index:0;
+}
+#game > *{position:relative;z-index:2;}
+#game .game-art{
+  position:absolute;inset:0;z-index:1;pointer-events:none;
+}
+#game .game-art span{
+  position:absolute;color:transparent;-webkit-text-stroke:2px rgba(255,255,255,.62);
+  opacity:.38;font-size:clamp(2rem,4vw,4rem);
+  filter:drop-shadow(0 0 8px rgba(255,255,255,.14));
+  animation:floatFood 5s ease-in-out infinite;
+}
+#game .game-art span:nth-child(1){left:7%;top:15%;transform:rotate(-14deg)}
+#game .game-art span:nth-child(2){right:9%;top:19%;transform:rotate(12deg);animation-delay:-1.2s}
+#game .game-art span:nth-child(3){left:12%;bottom:16%;transform:rotate(9deg);animation-delay:-2s}
+#game .game-art span:nth-child(4){right:13%;bottom:13%;transform:rotate(-10deg);animation-delay:-3s}
+#game .game-art span:nth-child(5){left:45%;top:10%;font-size:2rem;animation-delay:-.5s}
+#game .game-art span:nth-child(6){left:51%;bottom:8%;font-size:1.7rem;animation-delay:-2.8s}
+@keyframes floatFood{0%,100%{translate:0 0}50%{translate:0 -12px}}
+
+
+/* ===== SCRAPBOOK REDESIGN ===== */
+#scrapbook{
+  position:relative;
+  overflow:hidden;
+  isolation:isolate;
+  background:
+    linear-gradient(rgba(25,7,14,.20),rgba(25,7,14,.28)),
+    url("images/scrapbook-background.png") center center / cover no-repeat;
+}
+#scrapbook::before{
+  content:"";
+  position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(255,214,190,.10), transparent 36%),
+    linear-gradient(180deg, rgba(10,3,7,.05), rgba(10,3,7,.30));
+}
+#scrapbook::after{
+  content:"✦   ♡   ✧";
+  position:absolute;z-index:1;top:7%;left:50%;
+  transform:translateX(-50%);
+  color:rgba(255,223,204,.75);
+  font-size:1.2rem;letter-spacing:1.2rem;
+  text-shadow:0 0 14px rgba(255,190,160,.35);
+  pointer-events:none;
+}
+#scrapbook .scrap-sparkles,
+#scrapbook .leopard-corner,
+#scrapbook .art-strip,
+#scrapbook .scrap-heading{display:none !important;}
+
+#scrapbook .scrap-wrap{
+  position:relative;z-index:4;
+  width:min(1060px,94vw);
+  display:flex;flex-wrap:nowrap;
+  gap:clamp(.8rem,2vw,1.7rem);
+  justify-content:center;align-items:flex-start;
+  padding:clamp(2rem,7vh,5rem) 0 1rem;
+}
+#scrapbook .polaroid{
+  flex:1 1 0;
+  width:auto;max-width:310px;min-width:0;
+  background:linear-gradient(145deg,#fffaf3,#eee0d4);
+  padding:10px 10px 0;
+  border:1px solid rgba(255,255,255,.7);
+  border-radius:3px;
+  box-shadow:0 22px 45px rgba(0,0,0,.50),0 0 0 1px rgba(207,157,117,.25);
+  cursor:pointer;position:relative;overflow:hidden;
+  transition:transform .35s ease, box-shadow .35s ease;
+}
+#scrapbook .polaroid:hover{
+  transform:translateY(-8px) rotate(0deg) !important;
+  box-shadow:0 28px 52px rgba(0,0,0,.58),0 0 25px rgba(255,205,178,.16);
+}
+#scrapbook .polaroid:nth-child(1){transform:rotate(-4deg);}
+#scrapbook .polaroid:nth-child(2){transform:rotate(2deg);margin-top:1.1rem;}
+#scrapbook .polaroid:nth-child(3){transform:rotate(-2.5deg);}
+
+#scrapbook .polaroid .frame{
+  width:100%;aspect-ratio:1/1.04;
+  background:linear-gradient(160deg,#3a2530,#17080f);
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;border-radius:2px;
+}
+#scrapbook .polaroid .frame img{
+  width:100%;height:100%;object-fit:cover;display:block;
+}
+#scrapbook .polaroid .frame .plus{
+  color:rgba(255,239,226,.72);
+  font-size:3rem;font-family:'Playfair Display',serif;
+  text-shadow:0 2px 15px rgba(0,0,0,.5);
+}
+
+#scrapbook .polaroid input[type=file]{display:none;}
+
+#scrapbook .seal{
+  position:relative;z-index:4;
+  width:70px;height:70px;margin:.3rem auto 0;
+  background:radial-gradient(circle at 35% 30%,#c65362,#721b2b 70%);
+  border:2px solid rgba(226,183,139,.5);
+  box-shadow:0 8px 20px rgba(0,0,0,.48),0 0 18px rgba(210,102,111,.16);
+}
+#scrapbook .scrap-note,
+#scrapbook .scrap-actions{position:relative;z-index:4;}
+#scrapbook .scrap-note{display:none !important;}
+#scrapbook .scrap-actions{margin-top:.5rem;}
+@media (max-width:700px){
+  #scrapbook{background-position:center center;}
+  #scrapbook .scrap-wrap{
+    width:94vw;gap:.45rem;padding:3.5rem .2rem .5rem;
+  }
+  #scrapbook .polaroid{padding:7px 7px 0;}
+  #scrapbook .polaroid:nth-child(2){margin-top:.5rem;}
+  #scrapbook .polaroid::after{
+    min-height:76px;padding:8px 7px 11px;
+    font-size:clamp(.64rem,2.35vw,.85rem);line-height:1.28;
+  }
+  #scrapbook .polaroid .frame .plus{font-size:2.2rem;}
+  #scrapbook .seal{width:58px;height:58px;}
+}
+
+
+/* Final scrapbook layout */
+#scrapbook{
+  background:
+    linear-gradient(rgba(20,5,12,.30),rgba(20,5,12,.48)),
+    url("images/scrapbook-background.png") center/cover no-repeat;
+  position:relative;overflow:hidden;
+}
+#scrapbook .scrap-wrap{
+  width:min(1180px,94vw);
+  margin:0 auto;
+  display:flex;align-items:center;justify-content:center;
+  gap:clamp(1rem,3vw,2.8rem);
+  position:relative;z-index:4;
+}
+#scrapbook .polaroid{
+  width:clamp(220px,25vw,310px);
+  padding:10px 10px 0;
+  background:#f5e8dc;
+  border-radius:3px;
+  box-shadow:0 24px 55px rgba(0,0,0,.58),0 0 0 1px rgba(245,205,175,.25);
+  cursor:pointer;position:relative;overflow:hidden;
+  transition:transform .3s ease,box-shadow .3s ease;
+}
+#scrapbook .polaroid:nth-child(1){transform:rotate(-4deg)}
+#scrapbook .polaroid:nth-child(2){transform:rotate(2deg);margin-top:2rem}
+#scrapbook .polaroid:nth-child(3){transform:rotate(-3deg)}
+#scrapbook .polaroid:hover{
+  transform:translateY(-8px) rotate(0deg)!important;
+  box-shadow:0 30px 60px rgba(0,0,0,.65),0 0 30px rgba(255,215,190,.15);
+}
+#scrapbook .polaroid .frame{
+  width:100%;aspect-ratio:1/1.04;
+  background:#28111a;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+}
+#scrapbook .polaroid .frame img{
+  width:100%;height:100%;object-fit:cover;display:block;
+}
+#scrapbook .polaroid .frame .plus{
+  color:#fff0e6;font-size:3rem;
+}
+#scrapbook .photo-caption{
+  min-height:96px;
+  padding:14px 14px 16px;
+  box-sizing:border-box;
+  display:flex;align-items:center;justify-content:center;
+  text-align:center;
+  color:#421321;
+  font-family:'Playfair Display',Georgia,serif;
+  font-size:clamp(.95rem,1.45vw,1.18rem);
+  font-weight:600;
+  line-height:1.35;
+  overflow-wrap:anywhere;
+  word-break:normal;
+}
+#scrapbook .photo-input{display:none}
+#scrapbook .seal{
+  position:absolute;left:50%;bottom:7%;
+  transform:translateX(-50%) rotate(-8deg);
+  width:64px;height:64px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(circle at 35% 30%,#b34a57,#571321 68%,#2a0811);
+  color:#f8d9c6;font-family:Georgia,serif;font-size:1.5rem;
+  box-shadow:0 8px 22px rgba(0,0,0,.4);
+  z-index:4;
+}
+#scrapbook .scrap-sparkles span{
+  position:absolute;color:rgba(255,220,205,.72);
+  font-size:clamp(1rem,2vw,1.7rem);
+  z-index:2;pointer-events:none;
+}
+#scrapbook .scrap-sparkles span:nth-child(1){left:7%;top:18%}
+#scrapbook .scrap-sparkles span:nth-child(2){right:9%;top:22%}
+#scrapbook .scrap-sparkles span:nth-child(3){left:12%;bottom:20%}
+#scrapbook .scrap-sparkles span:nth-child(4){right:12%;bottom:18%}
+#scrapbook .scrap-sparkles span:nth-child(5){left:48%;top:11%}
+@media(max-width:800px){
+  #scrapbook .scrap-wrap{gap:.65rem;width:96vw}
+  #scrapbook .polaroid{width:31vw;padding:6px 6px 0}
+  #scrapbook .photo-caption{
+    min-height:90px;padding:9px 6px 11px;
+    font-size:clamp(.72rem,2.5vw,.92rem);line-height:1.25;
+  }
+  #scrapbook .polaroid:nth-child(2){margin-top:.6rem}
+}
+
+
+#scrapbook .polaroid::after{display:none!important;}
+#scrapbook .photo-caption{
+  min-height:96px;padding:14px 14px 16px;box-sizing:border-box;
+  display:flex!important;align-items:center;justify-content:center;
+  text-align:center;color:#421321;
+  font-family:'Playfair Display',Georgia,serif;
+  font-size:clamp(.92rem,1.35vw,1.14rem);
+  font-weight:600;line-height:1.34;
+  overflow-wrap:anywhere;word-break:normal;
+}
+#scrapbook .site-photo{
+  width:100%;height:100%;object-fit:cover;display:block!important;
+}
+#scrapbook .frame.photo-missing{
+  background:linear-gradient(145deg,#3a2530,#17080f);
+}
+#scrapbook .frame.photo-missing::after{
+  content:"photo-" attr(data-photo-index);
+  color:rgba(255,239,226,.72);
+  font-family:Georgia,serif;font-size:1.1rem;
+}
+
+
+#favorite .video-frame{position:relative;overflow:hidden;cursor:pointer}
+#favorite .video-frame video{
+  width:100%;height:100%;object-fit:cover;
+  display:none;background:#12070d;
+}
+#favorite .video-frame .placeholder{
+  width:100%;height:100%;display:flex;
+  align-items:center;justify-content:center;
+  flex-direction:column;gap:.7rem;
+}
+#favorite .video-frame input[type="file"]{display:none}
+
+</style>
+</head>
+<body>
+
+<div id="flower-overlay"></div>
+
+<div id="navdots">
+  <button data-target="game" class="active" aria-label="Catch the treats"></button>
+  <button data-target="mixtape" aria-label="Songs for you"></button>
+  <button data-target="scrapbook" aria-label="Our photos"></button>
+  <button data-target="favorite" aria-label="Favorite person"></button>
+</div>
+
+<div id="scroll-container">
+
+  <!-- ===================== SECTION 1 — GAME ===================== -->
+  <section id="game">
+      <div class="game-art" aria-hidden="true">
+        <span>🍰</span><span>🥐</span><span>🍓</span><span>🧁</span><span>✦</span><span>✧</span>
+      </div>
+
+    <div class="food-doodles" aria-hidden="true">
+      <span class="food-doodle one">🍓</span>
+      <span class="food-doodle two">🥐</span>
+      <span class="food-doodle three">🍒</span>
+      <span class="food-doodle four">🧁</span>
+      <span class="food-doodle five">✦</span>
+      <span class="food-doodle six">✧</span>
+    </div>
+
+    <div id="score-pill">Caught: <span id="score">0</span> / <span id="target">12</span></div>
+    <h1 class="game-title"><span class="line1">for my love,</span></h1>
+    <p class="game-subtitle">move the basket to catch what falls</p>
+    <div id="game-field">
+      <div id="basket">
+        <div class="cloth"></div>
+        <div class="handle"></div>
+        <div class="body"></div>
+      </div>
+    </div>
+    <button class="btn light" id="continue-1">continue &nbsp;❤</button>
+  </section>
+
+  <!-- ===================== SECTION 2 — MIXTAPE ===================== -->
+  <section id="mixtape">
+    <svg class="corner-bloom tl" viewBox="0 0 200 200"><g id="bloomTL"></g></svg>
+    <svg class="corner-bloom tr" viewBox="0 0 200 200"><g id="bloomTR"></g></svg>
+    <svg class="corner-bloom bl" viewBox="0 0 200 200"><g id="bloomBL"></g></svg>
+    <svg class="corner-bloom br" viewBox="0 0 200 200"><g id="bloomBR"></g></svg>
+
+    <div class="mixtape-card">
+      <p class="mixtape-eyebrow">for my love · from you</p>
+      <h2 class="mixtape-title">Songs for you</h2>
+
+      <div class="cassette">
+        <div class="screws s1"></div><div class="screws s2"></div>
+        <div class="screws s3"></div><div class="screws s4"></div>
+        <div class="label">Songs for you</div>
+        <div class="reels" id="reels">
+          <div class="reel"></div>
+          <div class="reel-tape"></div>
+          <div class="reel"></div>
+        </div>
+      </div>
+
+      <div class="song-list">
+  <div class="song-row" data-idx="1">
+    <span class="song-num">01</span>
+    <div class="song-meta">
+      <input class="song-title" value="BUSHIDO ZHO - Где бы я ни был" />
+      <input class="song-artist" value="" />
+    </div>
+    <button class="play-btn" type="button" aria-label="play BUSHIDO ZHO - Где бы я ни был">▶</button>
+    <audio class="site-audio" preload="metadata" src="./audio/BUSHIDO%20ZHO%20-%20%D0%93%D0%B4%D0%B5%20%D0%B1%D1%8B%20%D1%8F%20%D0%20%D0%B1%D1%8B%D0%BB.mp3"></audio>
+  </div>
+  <div class="song-row" data-idx="2">
+    <span class="song-num">02</span>
+    <div class="song-meta">
+      <input class="song-title" value="Face - Лиза" />
+      <input class="song-artist" value="" />
+    </div>
+    <button class="play-btn" type="button" aria-label="play Face - Лиза">▶</button>
+    <audio class="site-audio" preload="metadata" src="./audio/Face%20-%20%D0%9B%D0%B8%D0%B7%D0%B0.mp3"></audio>
+  </div>
+</div>
+
+      <div class="liner-note">
+        <div class="tag">liner note</div>
+        <textarea rows="2">Люблю тебя так же сильно как и в день первый</textarea>
+      </div>
+
+      <div class="mixtape-actions">
+        <button class="btn" id="continue-2">finish mixtape</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== SECTION 3 — SCRAPBOOK ===================== -->
+  <section id="scrapbook">
+    <div class="scrap-sparkles" aria-hidden="true">
+      <span>✦</span><span>✧</span><span>☆</span><span>♡</span><span>✦</span>
+    </div>
+
+    <div class="scrap-wrap" id="scrapWrap">
+      <label class="polaroid">
+        <div class="frame">
+          <img class="site-photo" src="./images/photo-1.jpg" alt="Наше фото 1" loading="eager" data-photo-index="1">
+          <span class="plus" style="display:none">+</span>
+        </div>
+        <div class="photo-caption">моя любовь прекрасна как букеты подаренные тебе</div>
+        <input type="file" accept="image/*" class="photo-input">
+      </label>
+
+      <label class="polaroid">
+        <div class="frame">
+          <img class="site-photo" src="./images/photo-2.jpg" alt="Наше фото 2" loading="eager" data-photo-index="2">
+          <span class="plus" style="display:none">+</span>
+        </div>
+        <div class="photo-caption">люблю тебя солнце</div>
+        <input type="file" accept="image/*" class="photo-input">
+      </label>
+
+      <label class="polaroid">
+        <div class="frame">
+          <img class="site-photo" src="./images/photo-3.jpg" alt="Наше фото 3" loading="eager" data-photo-index="3">
+          <span class="plus" style="display:none">+</span>
+        </div>
+        <div class="photo-caption">моя мышка</div>
+        <input type="file" accept="image/*" class="photo-input">
+      </label>
+    </div>
+
+    <div class="seal">♡</div>
+    <button class="btn light fav-restart" id="continue-3" style="margin-top:1rem;">continue &nbsp;❤</button>
+  </section>
+
+  <!-- ===================== SECTION 4 — FAVORITE PERSON ===================== -->
+  <section id="favorite">
+    <div class="petal-deco" style="top:8%;left:10%;">🌷</div>
+    <div class="petal-deco" style="top:15%;right:8%;">🌸</div>
+    <div class="petal-deco" style="bottom:12%;left:8%;">🌼</div>
+    <div class="petal-deco" style="bottom:18%;right:10%;">🌹</div>
+
+    <h2 class="fav-heading">Favorite<br>person</h2>
+    <label class="video-frame" id="videoFrame">
+      <div class="placeholder" id="videoPlaceholder">
+        <span class="icon">▶</span>
+        нажми, чтобы выбрать своё видео
+      </div>
+      <video id="loveVideo" playsinline controls preload="metadata"></video>
+      <input type="file" accept="video/*" id="videoInput">
+    </label>
+    <p class="fav-sub">made with you in mind, always</p>
+    <button class="btn" id="restartBtn">start over &nbsp;↺</button>
+  </section>
+
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---------------- helpers ---------------- */
+  function $(sel,ctx){return (ctx||document).querySelector(sel);}
+  function $all(sel,ctx){return Array.prototype.slice.call((ctx||document).querySelectorAll(sel));}
+
+  var scrollContainer = $('#scroll-container');
+  var sections = $all('section', scrollContainer);
+  var navButtons = $all('#navdots button');
+
+  function goToSection(id){
+    var target = document.getElementById(id);
+    if(!target) return;
+    playFlowerTransition(function(){
+      target.scrollIntoView({behavior:'smooth', block:'start'});
+    });
+  }
+
+  navButtons.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      goToSection(btn.dataset.target);
+    });
+  });
+
+  /* highlight active nav dot on scroll */
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        navButtons.forEach(function(b){
+          b.classList.toggle('active', b.dataset.target === entry.target.id);
+        });
+      }
+    });
+  }, {root: scrollContainer, threshold:0.6});
+  sections.forEach(function(s){ io.observe(s); });
+
+  /* ---------------- flower transition ---------------- */
+  var flowerEmoji = ['🌸','🌷','🌹','🌼','🌺','🪷','✿','❀'];
+  var overlay = $('#flower-overlay');
+  function playFlowerTransition(mid){
+    overlay.classList.add('playing');
+    overlay.style.opacity = '1';
+    overlay.innerHTML = '';
+    var count = 72;
+    for(var i=0;i<count;i++){
+      var p = document.createElement('div');
+      p.className = 'petal';
+      p.textContent = flowerEmoji[i % flowerEmoji.length];
+      var x = Math.random()*100;
+      var y = Math.random()*100;
+      var delay = Math.random()*0.42;
+      var dur = 1.15 + Math.random()*0.65;
+      p.style.left = x+'vw';
+      p.style.top = y+'vh';
+      p.style.animation = 'petalIn '+dur+'s ease-in '+delay+'s forwards';
+      overlay.appendChild(p);
+    }
+    setTimeout(function(){
+      if(mid) mid();
+    }, 620);
+    setTimeout(function(){
+      overlay.style.opacity = '0';
+      overlay.classList.remove('playing');
+      overlay.innerHTML = '';
+    }, 1500);
+  }
+
+  /* ---------------- SECTION 1: catching game ---------------- */
+  var gameField = $('#game-field');
+  var basket = $('#basket');
+  var scoreEl = $('#score');
+  var targetScore = 12;
+  $('#target').textContent = targetScore;
+  var score = 0;
+  var gameActive = true;
+  var basketX = 0.5; // fraction of width
+
+  function positionBasket(clientX){
+    var rect = gameField.getBoundingClientRect();
+    var frac = (clientX - rect.left) / rect.width;
+    frac = Math.max(0.09, Math.min(0.91, frac));
+    basketX = frac;
+    basket.style.left = (frac*100)+'%';
+  }
+
+  gameField.addEventListener('pointermove', function(e){
+    positionBasket(e.clientX);
+  });
+  gameField.addEventListener('pointerdown', function(e){
+    positionBasket(e.clientX);
+  });
+  // touch fallback for older browsers
+  gameField.addEventListener('touchmove', function(e){
+    if(e.touches && e.touches[0]){
+      positionBasket(e.touches[0].clientX);
+      e.preventDefault();
+    }
+  }, {passive:false});
+
+  var foodEmoji = ['🥐','🍩','🥞','🍓','🍒','🍰','🧁','🥧','🧇','🍪','🍎','🍞','🍇'];
+  var fallingItems = [];
+
+  function spawnItem(){
+    if(!gameActive) return;
+    var el = document.createElement('div');
+    el.className = 'falling-item';
+    el.textContent = foodEmoji[Math.floor(Math.random()*foodEmoji.length)];
+    var fieldRect = gameField.getBoundingClientRect();
+    var startX = 6 + Math.random()*(88);
+    el.style.left = startX+'%';
+    el.style.top = '-50px';
+    gameField.appendChild(el);
+    var duration = 2800 + Math.random()*1500;
+    var item = {
+      el: el,
+      startTime: performance.now(),
+      duration: duration,
+      startXPercent: startX,
+      caught: false
+    };
+    fallingItems.push(item);
+  }
+
+  var spawnTimer = setInterval(spawnItem, 480);
+
+  function catchPop(x,y){
+    var pop = document.createElement('div');
+    pop.className = 'catch-pop';
+    pop.textContent = '+1';
+    pop.style.left = x+'px';
+    pop.style.top = y+'px';
+    gameField.appendChild(pop);
+    setTimeout(function(){ pop.remove(); }, 720);
+  }
+
+  function tick(now){
+    var fieldRect = gameField.getBoundingClientRect();
+    var basketRect = basket.getBoundingClientRect();
+
+    for(var i = fallingItems.length-1; i>=0; i--){
+      var item = fallingItems[i];
+      var t = (now - item.startTime) / item.duration;
+      if(t >= 1 || item.caught){
+        if(item.el.parentNode) item.el.remove();
+        fallingItems.splice(i,1);
+        continue;
+      }
+      var yPos = t * (fieldRect.height + 60) - 50;
+      item.el.style.transform = 'translateY('+yPos+'px)';
+
+      if(gameActive){
+        var itemRect = item.el.getBoundingClientRect();
+        var overlapX = itemRect.left < basketRect.right - 20 && itemRect.right > basketRect.left + 20;
+        var overlapY = itemRect.bottom > basketRect.top + 10 && itemRect.top < basketRect.top + 55;
+        if(overlapX && overlapY){
+          item.caught = true;
+          score++;
+          scoreEl.textContent = score;
+          catchPop(itemRect.left - fieldRect.left, itemRect.top - fieldRect.top);
+          if(item.el.parentNode) item.el.remove();
+          fallingItems.splice(i,1);
+          if(score >= targetScore){
+            finishGame();
+          }
+        }
+      }
+    }
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+
+  var continueBtn1 = $('#continue-1');
+  function finishGame(){
+    if(!gameActive) return;
+    gameActive = false;
+    clearInterval(spawnTimer);
+    continueBtn1.classList.add('show');
+  }
+  // fallback: reveal continue after 22s regardless of score
+  setTimeout(function(){
+    if(gameActive){ continueBtn1.classList.add('show'); }
+  }, 22000);
+
+  continueBtn1.addEventListener('click', function(){
+    goToSection('mixtape');
+  });
+
+  /* ---------------- SECTION 2: mixtape ---------------- */
+  var activeAudio = null;
+
+  $all('.song-row').forEach(function(row){
+    var btn = row.querySelector('.play-btn');
+    var audio = row.querySelector('.track-audio');
+    var reels = $('#reels');
+    if(!btn || !audio) return;
+
+    btn.addEventListener('click', function(e){
+      e.preventDefault();
+      e.stopPropagation();
+
+      // Stop the other track.
+      $all('.track-audio').forEach(function(other){
+        if(other !== audio){
+          other.pause();
+          other.currentTime = 0;
+          var otherBtn = other.closest('.song-row').querySelector('.play-btn');
+          otherBtn.textContent = '▶';
+        }
+      });
+
+      if(audio.paused){
+        // The MP3 is loaded from the site's /audio/ folder.
+        audio.play().then(function(){
+          activeAudio = audio;
+          btn.textContent = '❚❚';
+          reels.classList.remove('paused');
+        }).catch(function(){
+          // Do NOT open a file picker. If GitHub cannot find the MP3, show a small hint.
+          btn.textContent = '⚠';
+          setTimeout(function(){ btn.textContent = '▶'; }, 1800);
+        });
+      }else{
+        audio.pause();
+        btn.textContent = '▶';
+        reels.classList.add('paused');
+        if(activeAudio === audio) activeAudio = null;
+      }
+    });
+
+    audio.addEventListener('play', function(){
+      btn.textContent = '❚❚';
+      reels.classList.remove('paused');
+    });
+    audio.addEventListener('pause', function(){
+      btn.textContent = '▶';
+    });
+    audio.addEventListener('ended', function(){
+      btn.textContent = '▶';
+      reels.classList.add('paused');
+      if(activeAudio === audio) activeAudio = null;
+    });
+    audio.addEventListener('error', function(){
+      console.error('Не удалось загрузить трек:', audio.src);
+    });
+  });
+
+  $('#continue-2').addEventListener('click', function(){
+    goToSection('scrapbook');
+  });
+
+  /* simple flower SVG for mixtape corners */
+  function buildBloom(id){
+    var g = document.getElementById(id);
+    if(!g) return;
+    var petals = '';
+    var colors = ['#d97a6c','#e8a2a0','#f0c14b','#c98fb0'];
+    for(var i=0;i<5;i++){
+      var angle = (360/5)*i;
+      petals += '<ellipse cx="100" cy="70" rx="22" ry="34" fill="'+colors[i%colors.length]+'" opacity="0.85" transform="rotate('+angle+' 100 100)"/>';
+    }
+    petals += '<circle cx="100" cy="100" r="14" fill="#f6dfa9"/>';
+    g.innerHTML = petals;
+  }
+  ['bloomTL','bloomTR','bloomBL','bloomBR'].forEach(buildBloom);
+
+  /* ---------------- SECTION 3: scrapbook photos ---------------- */
+  var STORAGE_KEY_PREFIX = 'fml_photo_';
+
+  function loadPublishedPhoto(image, index){
+    var frame = image.closest('.frame');
+    var candidates = [
+      './images/photo-' + index + '.jpg',
+      './images/photo-' + index + '.jpeg',
+      './images/photo-' + index + '.png',
+      './images/photo-' + index + '.webp',
+      './photo-' + index + '.jpg',
+      './photo-' + index + '.jpeg',
+      './photo-' + index + '.png',
+      './photo-' + index + '.webp'
+    ];
+    var pos = 0;
+
+    function tryNext(){
+      if(pos >= candidates.length){
+        image.style.display = 'none';
+        frame.classList.add('photo-missing');
+        frame.dataset.photoIndex = index;
+        return;
+      }
+      var src = candidates[pos++];
+      image.onerror = tryNext;
+      image.onload = function(){
+        image.style.display = 'block';
+        frame.classList.remove('photo-missing');
+      };
+      image.src = src;
+    }
+    tryNext();
+  }
+
+  function wirePolaroid(label, index){
+    var input = label.querySelector('.photo-input');
+    var image = label.querySelector('.site-photo');
+    if(!image) return;
+
+    input.addEventListener('change', function(){
+      var file = input.files && input.files[0];
+      if(!file) return;
+      var reader = new FileReader();
+      reader.onload = function(e){
+        image.src = e.target.result;
+        image.style.display = 'block';
+        var frame = image.closest('.frame');
+        frame.classList.remove('photo-missing');
+        try{ localStorage.setItem(STORAGE_KEY_PREFIX + index, e.target.result); }catch(err){}
+      };
+      reader.readAsDataURL(file);
+    });
+
+    try{
+      var saved = localStorage.getItem(STORAGE_KEY_PREFIX + index);
+      if(saved){
+        image.src = saved;
+        image.style.display = 'block';
+      } else {
+        loadPublishedPhoto(image, index);
+      }
+    }catch(err){
+      loadPublishedPhoto(image, index);
+    }
+  }
+
+  $all('.polaroid').forEach(function(label, index){
+    wirePolaroid(label, index + 1);
+  });
+
+  $('#continue-3').addEventListener('click', function(){
+    goToSection('favorite');
+  });
+
+  /* ---------------- SECTION 4: video ---------------- */
+  var videoFrame = $('#videoFrame');
+  var videoInput = $('#videoInput');
+  var videoEl = $('#loveVideo');
+  var videoPlaceholder = $('#videoPlaceholder');
+
+  // GitHub Pages: video/love-video.mp4 must be next to index.html.
+  var videoCandidates = [
+    './video/love-video.mp4',
+    'video/love-video.mp4',
+    './love-video.mp4',
+    'love-video.mp4'
+  ];
+
+  function showVideo(){
+    videoPlaceholder.style.display = 'none';
+    videoEl.style.display = 'block';
+  }
+
+  function showVideoPlaceholder(){
+    videoEl.style.display = 'none';
+    videoPlaceholder.style.display = 'flex';
+  }
+
+  function tryPublishedVideo(index){
+    if(index >= videoCandidates.length){
+      showVideoPlaceholder();
+      return;
+    }
+    videoEl.src = videoCandidates[index];
+    videoEl.load();
+  }
+
+  videoEl.addEventListener('loadedmetadata', function(){
+    showVideo();
+  });
+
+  videoEl.addEventListener('canplay', function(){
+    showVideo();
+  });
+
+  videoEl.addEventListener('error', function(){
+    var current = videoEl.getAttribute('data-video-attempt') || '0';
+    var next = parseInt(current, 10) + 1;
+    videoEl.setAttribute('data-video-attempt', String(next));
+    tryPublishedVideo(next);
+  });
+
+  videoInput.addEventListener('change', function(){
+    var file = videoInput.files && videoInput.files[0];
+    if(!file) return;
+
+    if(videoEl._objectUrl){
+      URL.revokeObjectURL(videoEl._objectUrl);
+    }
+
+    videoEl._objectUrl = URL.createObjectURL(file);
+    videoEl.src = videoEl._objectUrl;
+    videoEl.load();
+    showVideo();
+  });
+
+  videoPlaceholder.addEventListener('click', function(){
+    videoInput.click();
+  });
+
+  videoEl.style.display = 'none';
+  videoEl.setAttribute('data-video-attempt', '0');
+  tryPublishedVideo(0);
+
+  $('#restartBtn').addEventListener('click', function(){
+    goToSection('game');
+  });
+
+})();
+</script>
+
+<script>
+/* GITHUB_AUDIO_PLAYER_START */
+(function () {
+  function setupPlayers() {
+    var rows = document.querySelectorAll('.song-row');
+    var players = document.querySelectorAll('.site-audio');
+
+    rows.forEach(function (row, i) {
+      var btn = row.querySelector('.play-btn');
+      var audio = row.querySelector('.site-audio');
+      if (!btn || !audio) return;
+
+      // If markup did not contain an audio element, pair by row index.
+      if (!audio && players[i]) audio = players[i];
+
+      btn.addEventListener('click', function () {
+        // Stop every other track.
+        document.querySelectorAll('.site-audio').forEach(function (other) {
+          if (other !== audio) {
+            other.pause();
+            other.currentTime = 0;
+            var otherRow = other.closest('.song-row');
+            if (otherRow) {
+              var otherBtn = otherRow.querySelector('.play-btn');
+              if (otherBtn) otherBtn.textContent = '▶';
+            }
+          }
+        });
+
+        if (audio.paused) {
+          var promise = audio.play();
+          if (promise && typeof promise.catch === 'function') {
+            promise.catch(function () {
+              btn.textContent = '⚠';
+              btn.title = 'Не удалось загрузить MP3 из папки audio';
+            });
+          }
+        } else {
+          audio.pause();
+        }
+      });
+
+      audio.addEventListener('play', function () {
+        btn.textContent = '❚❚';
+      });
+      audio.addEventListener('pause', function () {
+        btn.textContent = '▶';
+      });
+      audio.addEventListener('ended', function () {
+        btn.textContent = '▶';
+      });
+      audio.addEventListener('error', function () {
+        // Do not open a local file picker. Show the error only if the
+        // published GitHub Pages file really cannot be loaded.
+        btn.textContent = '⚠';
+        btn.title = 'MP3 не загрузился. Проверь папку audio и имя файла.';
+      });
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupPlayers);
+  } else {
+    setupPlayers();
+  }
+})();
+/* GITHUB_AUDIO_PLAYER_END */
+</script>
+
+</body>
+</html>
